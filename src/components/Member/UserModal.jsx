@@ -5,7 +5,7 @@ import { FaUser, FaAd, FaBinoculars, FaChartLine } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { secretEmail } from "../../utils/helper";
 
-export default function UserModal() {
+export default function UserModal({ setModal }) {
   const { currentUser } = NewsStream();
   const userModal = [
     {
@@ -41,6 +41,7 @@ export default function UserModal() {
       <div className="flex flex-col gap-5 border-b border-gray-300 pb-5">
         {userModal.map((link, index) => (
           <Link
+            onClick={() => setModal(false)}
             className="flex items-center gap-2 text-gray-500 hover:text-green-pastel-500"
             key={index}
             to={link.path}

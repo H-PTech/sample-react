@@ -59,7 +59,7 @@ export default function MemberHeader() {
                   modal ? "visible opacity-100%" : "invisible opacity-0"
                 } transition-all duration-100`}
               >
-                <UserModal />
+                <UserModal setModal={setModal} />
               </div>
             </Modal>
           </div>

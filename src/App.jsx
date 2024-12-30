@@ -5,6 +5,7 @@ import Member from "./components/Member/Member";
 import MemberHeader from "./components/Member/MemberHeader";
 import { NewsStream } from "./Context/Context";
 import { ToastContainer } from "react-toastify";
+import Profile from "./components/Member/Profile/Profile";
 
 function App() {
   const { currentUser } = NewsStream();
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         {currentUser && <Route path="/" element={<Member />} />}
         {!currentUser && <Route path="/anony" element={<Anony />} />}
+        <Route path="/profile/:userId" element={<Profile />} />
         <Route path="*" element={<Navigate to={!currentUser ? "/anony" : "/"} />} />
       </Routes>
     </>
