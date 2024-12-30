@@ -7,6 +7,7 @@ import ProfileLists from "./Activites/ProfileLists";
 import { discoverActions } from "../../data";
 import { IoMdSettings } from "react-icons/io";
 import { LiaTimesSolid } from "react-icons/lia";
+import EditProfile from "./EditProfile";
 
 export default function Profile() {
   const activities = [
@@ -26,6 +27,7 @@ export default function Profile() {
 
   const [currentActive, setCurrentActive] = useState(activities[0]);
   const [modal, setModal] = useState(false);
+  const [editModal, setEditModal] = useState(true);
 
   return (
     <>
@@ -85,7 +87,13 @@ export default function Profile() {
               <p className="text-gray-500 first-letter:uppercase text-sm">
                 Phasellus dapibus varius egestas. Ut nec tempor enim.
               </p>
-              <button className="text-green-700 pt-6 text-sm w-fit font-bold">Edit Profile</button>
+              <button
+                onClick={() => setEditModal(true)}
+                className="text-green-700 pt-6 text-sm w-fit font-bold"
+              >
+                Edit Profile
+              </button>
+
               {/* nav */}
               <div className="flex-[1] flex items-center flex-wrap gap-3 pt-8">
                 {discoverActions.map((item) => (
@@ -97,6 +105,7 @@ export default function Profile() {
             </div>
           </div>
         </Modal>
+        {editModal && <EditProfile editModal={editModal} setEditModal={setEditModal} />}
       </section>
     </>
   );
