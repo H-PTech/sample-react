@@ -8,6 +8,8 @@ import { discoverActions } from "../../data";
 import { IoMdSettings } from "react-icons/io";
 import { LiaTimesSolid } from "react-icons/lia";
 import EditProfile from "./EditProfile";
+import { NewsStream } from "../../../Context/Context";
+import { useParams } from "react-router-dom";
 
 export default function Profile() {
   const activities = [
@@ -25,9 +27,13 @@ export default function Profile() {
     },
   ];
 
+  const { allUsers } = NewsStream();
+  const { userId } = useParams();
+  const getUserData = allUsers.find((user) => user.id === userId);
+
   const [currentActive, setCurrentActive] = useState(activities[0]);
   const [modal, setModal] = useState(false);
-  const [editModal, setEditModal] = useState(true);
+  const [editModal, setEditModal] = useState(false);
 
   return (
     <>
@@ -35,14 +41,16 @@ export default function Profile() {
         {/* users activites */}
         <div className="mt-[9rem] flex-[2]">
           <div className="flex items-end gap-4">
-            <h2 className="text-3xl sm:text-5xl font-extrabold capitalize">H&P Tech</h2>
+            <h2 className="text-3xl sm:text-5xl font-extrabold capitalize">
+              {getUserData?.username}
+            </h2>
             <p className="text-gray-500 text-xs sm:text-sm">Followers(2)</p>
             <p className="text-gray-500 text-xs sm:text-sm">Followings(12)</p>
           </div>
           <div className="flex items-center gap-5 mt-[1rem] border-b border-gray-300 mb-[3rem]">
-            {activities.map((item) => (
+            {activities.map((item, index) => (
               <div
-                key={item.title}
+                key={index}
                 className={`py-[0.5rem] ${
                   item.title === currentActive.title ? "border-b border-gray-500" : ""
                 }`}
@@ -51,7 +59,7 @@ export default function Profile() {
               </div>
             ))}
           </div>
-          <currentActive.component />
+          <currentActive.component getUserData={getUserData} setEditModal={setEditModal} />
         </div>
         {/* button to open side profile modal */}
         <button
@@ -62,7 +70,6 @@ export default function Profile() {
         </button>
 
         {/* user details */}
-
         <Modal modal={modal} setModal={setModal}>
           <div
             className={`flex-[1] border-l border-gray-300 p-[2rem] z-10 fixed right-0 bottom-0 top-0 w-[18rem] bg-white md:relative 
@@ -105,7 +112,13 @@ export default function Profile() {
             </div>
           </div>
         </Modal>
-        {editModal && <EditProfile editModal={editModal} setEditModal={setEditModal} />}
+        {editModal && (
+          <EditProfile
+            getUserData={getUserData}
+            editModal={editModal}
+            setEditModal={setEditModal}
+          />
+        )}
       </section>
     </>
   );

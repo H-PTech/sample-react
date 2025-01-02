@@ -8,15 +8,21 @@ import { Link } from "react-router-dom";
 import Search from "./Search";
 import Modal from "../../utils/Modal";
 import UserModal from "./UserModal";
+import { NewsStream } from "../../Context/Context";
+import Loading from "../../utils/Loading";
 
 export default function MemberHeader() {
+  const { allUsers, userLoading, currentUser } = NewsStream();
   const [modal, setModal] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
 
   // const hidden = modal ? "visible opacity-100" : "invisible opacity-0";
 
+  const getUserData = allUsers.find((user) => user.id === currentUser?.uid);
+
   return (
     <header className="border-b border-gray-200">
+      {userLoading && <Loading />}
       <div className="size h-[60px] flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link to={"/"}>
@@ -47,7 +53,11 @@ export default function MemberHeader() {
             <img
               onClick={() => setModal(true)}
               className="w-[2.3rem] h-[2.3rem] object-cover rounded-full cursor-pointer"
-              src="../src/assets/img/profile_mika.png"
+              src={
+                getUserData?.userImg
+                  ? getUserData?.userImg
+                  : "../../../src/assets/img/profile_mika.png"
+              }
               alt="profile-img"
             />
             <span className="text-gray-500 cursor-pointer">
